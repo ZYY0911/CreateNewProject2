@@ -1,7 +1,9 @@
 package com.example.createnewproject2.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Environment;
 
 import com.example.createnewproject2.gifmaker.AnimatedGifEncoder;
@@ -21,12 +23,13 @@ public class GifUtil {
      *
      * @param delay 图片之间间隔的时间
      */
-    private void createGif(List<String> pics, String file_name, int delay, final Context context) {
+    public String createGif(List<Bitmap> pics, String file_name, int delay, final Context context) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         AnimatedGifEncoder localAnimatedGifEncoder = new AnimatedGifEncoder();
         localAnimatedGifEncoder.start(baos);//start
         localAnimatedGifEncoder.setRepeat(0);//设置生成gif的开始播放时间。0为立即开始播放
         localAnimatedGifEncoder.setDelay(delay);
+        localAnimatedGifEncoder.setTransparent(Color.BLACK);
 
         //【注意1】开始生成gif的时候，是以第一张图片的尺寸生成gif图的大小，后面几张图片会基于第一张图片的尺寸进行裁切
         //所以要生成尺寸完全匹配的gif图的话，应先调整传入图片的尺寸，让其尺寸相同
@@ -35,10 +38,12 @@ public class GifUtil {
         } else {
             for (int i = 0; i < pics.size(); i++) {
                 // Bitmap localBitmap = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(pics.get(i)), 512, 512);
-                localAnimatedGifEncoder.addFrame(BitmapFactory.decodeFile(pics.get(i)));
+                localAnimatedGifEncoder.addFrame(pics.get(i));
+
             }
         }
         localAnimatedGifEncoder.finish();//finish
+
 
         File file = new File(Environment.getExternalStorageDirectory().getPath() + "/GIFMakerDemo");
         if (!file.exists()) file.mkdir();
@@ -53,6 +58,7 @@ public class GifUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return  path;
 //        runOnUiThread(new Runnable() {
 //            @Override
 //            public void run() {
