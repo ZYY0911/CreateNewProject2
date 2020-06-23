@@ -40,6 +40,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.createnewproject2.R;
+import com.example.createnewproject2.bean.Images;
 import com.example.createnewproject2.net.VolleyLo;
 import com.example.createnewproject2.net.VolleyTo;
 import com.example.createnewproject2.util.GifUtil;
